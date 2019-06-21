@@ -2848,6 +2848,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1827363177}
   - component: {fileID: 1827363176}
+  - component: {fileID: 1827363179}
   - component: {fileID: 1827363178}
   m_Layer: 0
   m_Name: Manager
@@ -3001,6 +3002,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1827363179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827363175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3137cf6e9084f6648a0d7b68d9d4e319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledObjects: []
+  itemsToPool:
+  - objectToPool: {fileID: 65, guid: 64243068eef04514580f3fb69077eff7, type: 3}
+    amountToPool: 100
+    isPoolExpandable: 1
+  - objectToPool: {fileID: 96, guid: fa1f4d79d21c9464b8ef043c2b72ff0d, type: 3}
+    amountToPool: 20
+    isPoolExpandable: 1
 --- !u!1 &1940645880
 GameObject:
   m_ObjectHideFlags: 0

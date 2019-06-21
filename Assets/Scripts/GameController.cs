@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
     GameObject player;
     Pose hitPose;
     List<ARRaycastHit> hits = new List<ARRaycastHit>();
-    
+
     float time;
     int score;
 
@@ -81,9 +81,17 @@ public class GameController : MonoBehaviour
         yield return new WaitUntil(() => isFoundSpawnPoint);
         while (isFoundSpawnPoint)
         {
-            GameObject monster = Instantiate(monsterPrefab,
-                hitPose.position + new Vector3(Random.Range(xLimits.x, xLimits.y), 0, Random.Range(zLimits.x, zLimits.y)),
-                hitPose.rotation);
+            //GameObject monster = Instantiate(monsterPrefab,
+            //    hitPose.position + new Vector3(Random.Range(xLimits.x, xLimits.y), 0, Random.Range(zLimits.x, zLimits.y)),
+            //    hitPose.rotation);
+            GameObject monster = ObjectPooler.Instance.GetObjectFromPool("Enemy");
+            if (monster != null)
+            {              
+                monster.transform.SetPositionAndRotation(
+                    hitPose.position + new Vector3(Random.Range(xLimits.x, xLimits.y), 0, Random.Range(zLimits.x, zLimits.y)),
+                    hitPose.rotation);
+                monster.SetActive(true);
+            }
             yield return new WaitForSeconds(spawnDelay);
         }
     }
@@ -114,7 +122,8 @@ public class GameController : MonoBehaviour
 
     public void EndGame()
     {
-        int highScore = PlayerPrefs.GetInt("highscore");     
+        int highScore = PlayerPrefs.GetInt("highscore");
+        Debug.Log("Score : " + score + ", High Score :" + highScore);
         if (score > highScore)
         {
             gameOverPanel.transform.GetChild(0).GetChild(5).GetChild(0).GetChild(1).GetComponent<Text>().text = "your score : " + score + " !!!";
@@ -188,8 +197,15 @@ public class GameController : MonoBehaviour
         // Bullet fire rate controlling part.
         if (isFire && time > timeBetweenFire)
         {
-            GameObject bullet = Instantiate(bulletprefab, player.transform.GetChild(0).transform.position, player.transform.GetChild(0).transform.rotation);
-            bullet.GetComponent<BulletController>().damage = SetDamageProportionalToSound();
+            // GameObject bullet = Instantiate(bulletprefab, player.transform.GetChild(0).transform.position, player.transform.GetChild(0).transform.rotation);
+            GameObject bullet = ObjectPooler.Instance.GetObjectFromPool("Shot");
+            if (bullet != null)
+            {
+                bullet.transform.SetPositionAndRotation(player.transform.GetChild(0).transform.position, player.transform.GetChild(0).transform.rotation);
+                bullet.SetActive(true);
+                bullet.GetComponent<BulletController>().damage = SetDamageProportionalToSound();
+            }
+
             isFire = false;
             time = 0;
         }
@@ -203,7 +219,7 @@ public class GameController : MonoBehaviour
             if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
-                if (arRaycastManager.Raycast(touch.position, hits,UnityEngine.XR.ARSubsystems.TrackableType.Planes))
+                if (arRaycastManager.Raycast(touch.position, hits, UnityEngine.XR.ARSubsystems.TrackableType.Planes))
                 {
                     hitPose = hits[0].pose;
                     isFoundSpawnPoint = true;
@@ -212,7 +228,7 @@ public class GameController : MonoBehaviour
             }
         }
 
-       
+
     }
 
 

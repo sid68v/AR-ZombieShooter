@@ -15,7 +15,20 @@ public class BulletController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.velocity = transform.forward * speed;
-        Destroy(gameObject, 10f);
+        //Destroy(gameObject, 10f);
+
+        Invoke("DisableBullet", 10f);
+    }
+    private void OnEnable()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.velocity = transform.forward * speed;
+        Invoke("DisableBullet", 10f);
+    }
+
+    private void DisableBullet()
+    {
+        gameObject.SetActive(false);
     }
 
 
@@ -23,10 +36,10 @@ public class BulletController : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            other.transform.GetChild(0).gameObject.SetActive(true);
-            //other.gameObject.GetComponent<Rigidbody>().AddForce(-other.transform.forward * impactPower, ForceMode.Impulse);
+            other.transform.GetChild(0).gameObject.SetActive(true);           
             other.gameObject.GetComponent<EnemyController>().GetDamage(damage);
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 

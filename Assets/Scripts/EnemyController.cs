@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -80,7 +80,8 @@ public class EnemyController : MonoBehaviour
             {
                 PlaySound(GameController.Instance.zombieDeathSound, false);
                 anim.SetBool("isDead", true);
-                Destroy(gameObject, 4f);
+                //Destroy(gameObject, 4f);
+                Invoke("Die", 4f);
                 GameController.Instance.AddScore(deathBonus);
                 yield return new WaitForSeconds(2f);
                 isDead = false;
@@ -89,6 +90,11 @@ public class EnemyController : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    private void Die()
+    {
+        gameObject.SetActive(false);
     }
 
     public void PlaySound(AudioClip clip, bool loopState)
