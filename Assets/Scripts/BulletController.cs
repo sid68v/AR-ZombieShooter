@@ -6,6 +6,7 @@ public class BulletController : MonoBehaviour
 {
    
     public float speed = 2f;
+    public float lifeTime = 5f;
     public int damage = 10;
     //public float impactPower = 5f;
     Rigidbody rb;
@@ -17,13 +18,13 @@ public class BulletController : MonoBehaviour
         rb.velocity = transform.forward * speed;
         //Destroy(gameObject, 10f);
 
-        Invoke("DisableBullet", 10f);
+        Invoke("DisableBullet", lifeTime);
     }
     private void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
         rb.velocity = transform.forward * speed;
-        Invoke("DisableBullet", 10f);
+        Invoke("DisableBullet", lifeTime);
     }
 
     private void DisableBullet()

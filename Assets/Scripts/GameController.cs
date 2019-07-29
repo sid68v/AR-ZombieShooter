@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.EventSystems;
-using UnityEngine.Experimental.XR;
+
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 public class GameController : MonoBehaviour
 {
@@ -73,6 +75,7 @@ public class GameController : MonoBehaviour
         hitPose.position = Vector3.zero;
         hitPose.rotation = Quaternion.identity;
         StartCoroutine(SpawnWaves());
+
     }
 
     // Spawn waves of enemies at random posiions at equal intervals.
@@ -219,12 +222,13 @@ public class GameController : MonoBehaviour
             if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
-                if (arRaycastManager.Raycast(touch.position, hits, UnityEngine.XR.ARSubsystems.TrackableType.Planes))
+                if (arRaycastManager.Raycast(touch.position, hits,TrackableType.PlaneWithinPolygon))
                 {
                     hitPose = hits[0].pose;
                     isFoundSpawnPoint = true;
                     arPlaneManager.enabled = false;
                 }
+               
             }
         }
 

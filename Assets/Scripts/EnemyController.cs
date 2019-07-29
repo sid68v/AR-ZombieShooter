@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     public float turnSpeed = 1f;
     public bool isDead;
     public float attackDistance = 2f;
+    public float maxSpeed = 2.5f;
     public int attackDamage = 10;
     public float delayBetweenAttacks = 1f;
     public int deathBonus = 10;
@@ -41,7 +42,7 @@ public class EnemyController : MonoBehaviour
     public IEnumerator Move()
     {
         yield return new WaitForSeconds(initialDelay);
-        anim.speed = Random.Range(1f, 2.5f);
+        anim.speed = Random.Range(1f,maxSpeed);
         currentClip = GameController.Instance.zombieSounds[Mathf.RoundToInt(Random.Range(0, GameController.Instance.zombieSounds.Length))];
         PlaySound(currentClip, true);
 
