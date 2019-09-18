@@ -66,6 +66,14 @@ public class GameController : MonoBehaviour
         arSessionOrigin = FindObjectOfType<ARSessionOrigin>();
         arRaycastManager = FindObjectOfType<ARRaycastManager>();
         player = GameObject.FindGameObjectWithTag("Player");
+
+#if PLATFORM_ANDROID
+        if(!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+        {
+            Permission.RequestUserPermission(Permission.Microphone);
+        }
+#endif
+
         isFire = false;
         isFoundSpawnPoint = false;
         time = 0;
